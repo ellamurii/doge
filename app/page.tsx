@@ -1,21 +1,19 @@
 "use client";
-import { Paper, Stack, Typography } from "@mui/material";
+import { useGetBreedsQuery } from "@/services/dog";
+import { CircularProgress, Paper, Stack, Typography } from "@mui/material";
 
 export default function Home() {
-  return (
-    <Stack spacing={2}>
-      <Paper>
-        <Typography>Doge 1</Typography>
-      </Paper>
-      <Paper>
-        <Typography>Doge 2</Typography>
-      </Paper>
-      <Paper>
-        <Typography>Doge 3</Typography>
-      </Paper>
-      <Paper>
-        <Typography>Doge 4</Typography>
-      </Paper>
+  const { data, isLoading } = useGetBreedsQuery();
+
+  return isLoading ? (
+    <CircularProgress />
+  ) : (
+    <Stack spacing={2} paddingBlock={2} maxHeight="100%">
+      {data?.message.map((breed) => (
+        <Paper key={breed} sx={{ paddingInline: 2, paddingBlock: 1 }}>
+          <Typography>{breed}</Typography>
+        </Paper>
+      ))}
     </Stack>
   );
 }

@@ -21,7 +21,6 @@ export default function RootLayout({
           component="body"
           sx={{
             display: "flex",
-            rowGap: "100px",
             height: "100vh",
             alignItems: "center",
             justifyContent: "center",
