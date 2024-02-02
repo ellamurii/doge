@@ -9,6 +9,9 @@ const favoritesSlice = createSlice({
   name: "favorites",
   initialState,
   reducers: {
+    hydrate: (state: State, action: PayloadAction<State>) => {
+      return { ...state, ...action.payload };
+    },
     like: (state: State, action: PayloadAction<Action>) => {
       const { breed, image } = action.payload;
 
@@ -26,5 +29,5 @@ const favoritesSlice = createSlice({
     },
   },
 });
-export const { like, dislike } = favoritesSlice.actions;
+export const { like, dislike, hydrate } = favoritesSlice.actions;
 export default favoritesSlice.reducer;

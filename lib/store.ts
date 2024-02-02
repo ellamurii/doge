@@ -9,13 +9,9 @@ const reducers = combineReducers({
   favorites: favoritesReducer,
 });
 
-const faveLocalStorage = localStorage.getItem(faveLocalStorageKey);
-const persistedState = faveLocalStorage ? JSON.parse(faveLocalStorage) : {};
-
 export const makeStore = () => {
   return configureStore({
     reducer: reducers,
-    preloadedState: { favorites: persistedState },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(dogApi.middleware),
   });
