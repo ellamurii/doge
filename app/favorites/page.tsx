@@ -18,7 +18,7 @@ export default function Favorites() {
   const filtered = useAppSelector(favoritesByBreed(filter ?? ""));
   const breeds = Object.keys(likes);
 
-  return breeds.length ? (
+  return (
     <Stack p={2} width="100%" height="100%" overflow="auto">
       <Autocomplete
         options={breeds}
@@ -27,20 +27,22 @@ export default function Favorites() {
         onChange={(_, val) => setFilter(val)}
         renderInput={(params) => <TextField {...params} label="Search" />}
       />
-      <Grid container spacing={4}>
-        {filter?.length
-          ? filtered.map((image) => (
-              <Card key={`${filter}-${image}`} breed={filter} image={image} />
-            ))
-          : breeds.map((breed) =>
-              likes[breed]?.map((image) => (
-                <Card key={`${breed}-${image}`} breed={breed} image={image} />
+      {breeds?.length ? (
+        <Grid container spacing={4}>
+          {filter?.length
+            ? filtered.map((image) => (
+                <Card key={`${filter}-${image}`} breed={filter} image={image} />
               ))
-            )}
-      </Grid>
+            : breeds.map((breed) =>
+                likes[breed]?.map((image) => (
+                  <Card key={`${breed}-${image}`} breed={breed} image={image} />
+                ))
+              )}
+        </Grid>
+      ) : (
+        <></>
+      )}
     </Stack>
-  ) : (
-    <></>
   );
 }
 
