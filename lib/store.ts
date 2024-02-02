@@ -1,13 +1,21 @@
 import { dogApi } from "@/services/dog";
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import favoritesReducer from "./slices/favorites";
+
+export const faveLocalStorageKey = "favoriteBreedImages";
+
+const reducers = combineReducers({
+  [dogApi.reducerPath]: dogApi.reducer,
+  favorites: favoritesReducer,
+});
+
+const faveLocalStorage = localStorage.getItem(faveLocalStorageKey);
+const persistedState = faveLocalStorage ? JSON.parse(faveLocalStorage) : {};
 
 export const makeStore = () => {
   return configureStore({
-    reducer: {
-      [dogApi.reducerPath]: dogApi.reducer,
-      favorites: favoritesReducer,
-    },
+    reducer: reducers,
+    preloadedState: { favorites: persistedState },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(dogApi.middleware),
   });

@@ -2,6 +2,7 @@
 import { useGetBreedImgsQuery } from "@/services/dog";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import Breed from "./breed";
+import Link from "next/link";
 
 export default function Page({ params }: { params: { breedName: string } }) {
   const { data, isLoading, error } = useGetBreedImgsQuery(
@@ -14,7 +15,7 @@ export default function Page({ params }: { params: { breedName: string } }) {
       {error && (
         <Box>
           <Typography>{(error as any)?.data.message}</Typography>
-          <Button href="/" variant="outlined" size="small">
+          <Button href="/" variant="outlined" size="small" LinkComponent={Link}>
             Go back to Home Page.
           </Button>
         </Box>
