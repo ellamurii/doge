@@ -1,6 +1,8 @@
 "use client";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { dislike, like } from "@/lib/slices/favorites";
 import { Grid, Stack, Box, Button, Pagination } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const PAGE_SIZE = 9;
 export default function Breed({
@@ -15,12 +17,29 @@ export default function Breed({
 
   const count = Math.floor(images.length / PAGE_SIZE);
 
+  const dispatch = useAppDispatch();
+  const likes = useAppSelector(({ favorites }) => favorites);
+
+  const likesDictionary = (likes[breedName] ?? []).reduce(
+    (prev, curr) => ({ ...prev, [curr]: true }),
+    {} as Record<string, boolean>
+  );
+
   useEffect(() => {
     const start = (page - 1) * PAGE_SIZE;
     const end = page * PAGE_SIZE;
 
     setCurrentList(images.slice(start, end));
   }, [images, page]);
+
+  const onToggleLike = (image: string) => {
+    const isLiked = likesDictionary[image];
+    if (isLiked) {
+      dispatch(dislike({ breed: breedName, image }));
+    } else {
+      dispatch(like({ breed: breedName, image }));
+    }
+  };
 
   return (
     <Stack p={2} width="100%" height="100%" overflow="auto">
@@ -44,8 +63,13 @@ export default function Breed({
                   backgroundRepeat: "no-repeat",
                 }}
               />
-              <Button sx={{ mt: 1 }} variant="outlined">
-                Like
+              <Button
+                sx={{ mt: 1 }}
+                variant={likesDictionary[image] ? "text" : "outlined"}
+                onClick={() => onToggleLike(image)}
+                color={likesDictionary[image] ? "error" : "primary"}
+              >
+                {likesDictionary[image] ? "Dislike" : "Like"}
               </Button>
             </Stack>
           </Grid>
