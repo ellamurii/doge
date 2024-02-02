@@ -7,7 +7,10 @@ export const dogApi = createApi({
     getBreeds: builder.query<{ message: string[]; status: string }, void>({
       query: () => "breeds/list",
     }),
+    getBreedImgs: builder.query<{ message: string[]; status: string }, string>({
+      query: (breedName) => `breed/${breedName}/images`,
+    }),
   }),
 });
 
-export const { useGetBreedsQuery } = dogApi;
+export const { useGetBreedsQuery, useGetBreedImgsQuery } = dogApi;

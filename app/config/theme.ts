@@ -29,11 +29,20 @@ export const themeOptions: Theme = createTheme({
   },
   typography: {
     fontFamily: inter.style.fontFamily,
+    h1: {
+      fontSize: "26px",
+      fontWeight: "500"
+    },
   },
   components: {
     MuiButtonBase: {
       defaultProps: {
         disableRipple: true,
+      },
+    },
+    MuiButton: {
+      defaultProps: {
+        variant: "contained",
       },
     },
   },
